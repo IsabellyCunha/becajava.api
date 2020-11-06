@@ -1,5 +1,6 @@
 package br.universidade.app.service;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,19 @@ public class ProfessorService {
 	
 	public List<Professor> listar(){	
 		return _repository.findAll();
+	}
+	
+	public Optional<Professor> listarUm(Long Id){
+		return _repository.findById(Id);
+	}
+	
+	public void atualizar(Long id, Professor professor) {
+		professor.setId(id);
+		_repository.save(professor);
+	}
+	
+	public void excluir(Long id) {
+		_repository.deleteById(id);
 	}
 
 }

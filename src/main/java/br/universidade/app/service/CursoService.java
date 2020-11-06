@@ -1,6 +1,6 @@
 package br.universidade.app.service;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +24,18 @@ final CursoRepository _repository;
 	
 	public List<Curso> listar(){	
 		return _repository.findAll();
+	}
+	
+	public Optional<Curso> listarUm(Long Id) {
+		return _repository.findById(Id);
+	}
+
+	public void atualizar(Long id, Curso curso) {
+		curso.setId(id);
+		_repository.save(curso);
+	}
+
+	public void excluir(Long id) {
+		_repository.deleteById(id);
 	}
 }

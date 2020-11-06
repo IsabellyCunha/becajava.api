@@ -33,4 +33,22 @@ private final NotaService _service;
     	return ResponseEntity.status(HttpStatus.OK).body(notas);
     }
 	
+	@GetMapping(path = "/{id}")
+    public ResponseEntity listarUm(@PathVariable Long id) {    	  	    	
+		Optional<Nota> nota = _service.listarUm(id);   	
+        return ResponseEntity.status(HttpStatus.OK).body(nota);
+    }
+	
+	@PutMapping(path = "/{id}")
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Nota nota) {    	  	    	
+		_service.atualizar(id, nota);   	
+        return ResponseEntity.status(HttpStatus.OK).body("Nota atualizada com sucesso!!!");
+    }
+	
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity excluir(@PathVariable Long id) {
+		_service.excluir(id);
+		return ResponseEntity.status(HttpStatus.OK).body("Nota excluídada com sucesso!!!");
+	}
+	
 }
