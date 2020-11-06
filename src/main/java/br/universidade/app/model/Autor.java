@@ -1,21 +1,18 @@
-
 package br.universidade.app.model;
-
 import javax.persistence.*;
 
-@Entity
-public class Aluno {
 
+@Entity
+public class Autor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	private String Nome;
-	private String RA;
 	private String DataNascimento;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "CursoId")
-	private Curso Curso;
+	@JoinColumn(name = "LivroId")
+	private Livro Livro;
 
 	public Long getId() {
 		return Id;
@@ -33,14 +30,6 @@ public class Aluno {
 		Nome = nome;
 	}
 
-	public String getRA() {
-		return RA;
-	}
-
-	public void setRA(String rA) {
-		RA = rA;
-	}
-
 	public String getDataNascimento() {
 		return DataNascimento;
 	}
@@ -49,4 +38,14 @@ public class Aluno {
 		DataNascimento = dataNascimento;
 	}
 
+	public Livro getLivro() {
+		return Livro;
+	}
+
+	public void setLivro(Livro livro) {
+		Livro = livro;
+	}
+	
+	
+	
 }
