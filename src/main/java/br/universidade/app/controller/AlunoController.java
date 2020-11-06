@@ -22,40 +22,61 @@ import br.universidade.app.service.ProfessorService;
 @RestController
 @RequestMapping("/alunos")
 public class AlunoController {
-private final AlunoService _service;
-	
+	private final AlunoService _service;
+
 	@Autowired
 	public AlunoController(AlunoService service) {
 		_service = service;
 	}
-	
+
 	@PostMapping
-    public ResponseEntity inserir(@RequestBody Aluno aluno) {
-		_service.inserir(aluno);
-		return ResponseEntity.status(HttpStatus.CREATED).body("professor inserido com sucesso!");
-    }
-	
+	public ResponseEntity inserir(@RequestBody Aluno aluno) {
+		try {
+			_service.inserir(aluno);
+			return ResponseEntity.status(HttpStatus.CREATED).body("professor inserido com sucesso!");
+
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não foi possível o cadastro do aluno!");
+		}
+	}
+
 	@GetMapping
-    public ResponseEntity listar() {		
-		Iterable<Aluno> alunos = _service.listar();  		
-    	return ResponseEntity.status(HttpStatus.OK).body(alunos);
-    }
-	
+	public ResponseEntity listar() {
+		try {
+			Iterable<Aluno> alunos = _service.listar();
+			return ResponseEntity.status(HttpStatus.OK).body(alunos);
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não existe nenhum aluno!");
+		}
+	}
+
 	@GetMapping(path = "/{id}")
-    public ResponseEntity listarUm(@PathVariable Long id) {    	  	    	
-		Optional<Aluno> aluno = _service.listarUm(id);   	
-        return ResponseEntity.status(HttpStatus.OK).body(aluno);
-    }
-	
+	public ResponseEntity listarUm(@PathVariable Long id) {
+		try {
+			Optional<Aluno> aluno = _service.listarUm(id);
+			return ResponseEntity.status(HttpStatus.OK).body(aluno);
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Aluno não existe!");
+		}
+	}
+
 	@PutMapping(path = "/{id}")
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {    	  	    	
-		_service.atualizar(id, aluno);   	
-        return ResponseEntity.status(HttpStatus.OK).body("aluno atualizado com sucesso!!!");
-    }
-	
+	public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {
+		try {
+			_service.atualizar(id, aluno);
+			return ResponseEntity.status(HttpStatus.OK).body("aluno atualizado com sucesso!!!");
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não foi possível a atualização!");
+		}
+	}
+
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity excluir(@PathVariable Long id) {
-		_service.excluir(id);
-		return ResponseEntity.status(HttpStatus.OK).body("aluno excluídada com sucesso!!!");
+		try {
+			_service.excluir(id);
+			return ResponseEntity.status(HttpStatus.OK).body("aluno excluídada com sucesso!!!");
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não é possível excluir!");
+		}
 	}
 }

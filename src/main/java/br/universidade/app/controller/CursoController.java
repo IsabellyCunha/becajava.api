@@ -22,31 +22,51 @@ public class CursoController {
 
 	@PostMapping
 	public ResponseEntity inserir(@RequestBody Curso curso) {
-		_service.inserir(curso);
-		return ResponseEntity.status(HttpStatus.CREATED).body("Curso inserido com sucesso!");
+		try {
+			_service.inserir(curso);
+			return ResponseEntity.status(HttpStatus.CREATED).body("Curso inserido com sucesso!");
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não foi possível o cadastro do curso!");
+		}
 	}
 
 	@GetMapping
 	public ResponseEntity listar() {
-		Iterable<Curso> cursos = _service.listar();
-		return ResponseEntity.status(HttpStatus.OK).body(cursos);
+		try {
+			Iterable<Curso> cursos = _service.listar();
+			return ResponseEntity.status(HttpStatus.OK).body(cursos);
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não existe nenhum curso!");
+		}
 	}
-	
+
 	@GetMapping(path = "/{id}")
-    public ResponseEntity listarUm(@PathVariable Long id) {    	  	    	
-		Optional<Curso> curso = _service.listarUm(id);   	
-        return ResponseEntity.status(HttpStatus.OK).body(curso);
-    }
-	
+	public ResponseEntity listarUm(@PathVariable Long id) {
+		try {
+			Optional<Curso> curso = _service.listarUm(id);
+			return ResponseEntity.status(HttpStatus.OK).body(curso);
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Curso não existe!");
+		}
+	}
+
 	@PutMapping(path = "/{id}")
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Curso curso) {    	  	    	
-		_service.atualizar(id, curso);   	
-        return ResponseEntity.status(HttpStatus.OK).body("curso atualizado com sucesso!!!");
-    }
-	
+	public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Curso curso) {
+		try {
+			_service.atualizar(id, curso);
+			return ResponseEntity.status(HttpStatus.OK).body("curso atualizado com sucesso!!!");
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não foi possível a atualização!");
+		}
+	}
+
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity excluir(@PathVariable Long id) {
-		_service.excluir(id);
-		return ResponseEntity.status(HttpStatus.OK).body("curso excluídada com sucesso!!!");
+		try {
+			_service.excluir(id);
+			return ResponseEntity.status(HttpStatus.OK).body("curso excluídada com sucesso!!!");
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.CREATED).body("Não é possível excluir!");
+		}
 	}
 }
